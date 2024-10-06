@@ -5,11 +5,5 @@
       "src": "api/generate-lyrics.py",
       "use": "@vercel/python"
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/generate-lyrics",
-      "dest": "api/generate-lyrics.py"
-    }
   ]
 }
