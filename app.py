@@ -32,4 +32,4 @@ def generate_lyrics():
         return jsonify({"error": str(e)}), 500  # Return error message if the API call fails
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
