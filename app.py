@@ -3,17 +3,22 @@ from flask_cors import CORS
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os 
+
 # Initialize the Flask application and CORS
 load_dotenv()
 app = Flask(__name__)
 # CORS(app)  # Enable CORS
 API_KEY = os.environ.get("GOOGLE_API_KEY")
+
 # Configure your Google Generative AI API key
 genai.configure(api_key=API_KEY)  # Replace with your actual API key
 model = genai.GenerativeModel('gemini-pro')
-@app.route("/generate-lyrics",methods=['GET'])
+
+@app.route("/generate-lyrics", methods=['GET'])
 def above():
     print("Hello World")
+    return jsonify({"message": "Hello World"}), 200  # Return a JSON response
+
 @app.route('/generate-lyrics', methods=['POST'])
 def generate_lyrics():
     data = request.json
@@ -28,7 +33,6 @@ def generate_lyrics():
 
         # Return the generated lyrics as JSON
         return jsonify({"lyrics": generated_content})
-
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500  # Return error message if the API call fails
