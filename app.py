@@ -14,7 +14,7 @@ API_KEY = os.environ.get("GOOGLE_API_KEY")
 genai.configure(api_key=API_KEY)  # Replace with your actual API key
 model = genai.GenerativeModel('gemini-pro')
 
-@app.route("/generate-lyrics", methods=['GET'])
+@app.route("/about", methods=['GET'])
 def above():
     print("Hello World")
     return jsonify({"message": "Hello World"}), 200  # Return a JSON response
