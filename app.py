@@ -7,7 +7,7 @@ import os
 # Initialize the Flask application and CORS
 load_dotenv()
 app = Flask(__name__)
-# CORS(app)  # Enable CORS
+CORS(app)  # Enable CORS
 API_KEY = os.environ.get("GOOGLE_API_KEY")
 
 # Configure your Google Generative AI API key
@@ -19,7 +19,7 @@ def above():
     print("Hello World")
     return jsonify({"message": "Hello World"}), 200  # Return a JSON response
 
-@app.route('/generate-lyrics', methods=['POST'])
+@app.route('/generate-lyrics', methods=['POST', 'OPTIONS'])
 def generate_lyrics():
     data = request.json
     prompt = data.get('prompt', 'Generate lyrics for a song about love.')  # Default prompt if none is provided
