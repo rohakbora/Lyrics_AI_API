@@ -2,27 +2,36 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import google.generativeai as genai
 from dotenv import load_dotenv
-import os 
+import os
 
-# Initialize the Flask application and CORS
+# Load environment variables
 load_dotenv()
-app = Flask(__name__)
-CORS(app)  # Enable CORS
-API_KEY = os.environ.get("GOOGLE_API_KEY")
 
-# Configure your Google Generative AI API key
-genai.configure(api_key=API_KEY)  # Replace with your actual API key
+# Initialize the Flask application
+app = Flask(__name__)
+
+# Enable CORS (Cross-Origin Resource Sharing)
+CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS"], "allow_headers": ["Content-Type"]}})
+
+# Get the API key from environment variables
+API_KEY = os.getenv("GOOGLE_API_KEY")
+
+# Ensure the API key is loaded correctly
+if not API_KEY:
+    raise ValueError("API key not found in environment. Make sure to set GOOGLE_API_KEY in your .env file.")
+
+# Configure Google Generative AI with the API key
+genai.configure(api_key=API_KEY)
+
+# Define the generative model
 model = genai.GenerativeModel('gemini-pro')
 
-@app.route("/about", methods=['GET'])
-def above():
-    print("Hello World")
-    return jsonify({"message": "Hello World"}), 200  # Return a JSON response
-
-@app.route('/generate-lyrics', methods=['POST', 'OPTIONS'])
+@app.route('/generate-lyrics', methods=['POST'])
 def generate_lyrics():
     data = request.json
-    prompt = data.get('prompt', 'Generate lyrics for a song about love.')  # Default prompt if none is provided
+
+    # Default prompt if none is provided
+    prompt = data.get('prompt', 'Generate lyrics for a song about love.')
 
     try:
         # Generate content using the model
@@ -35,7 +44,9 @@ def generate_lyrics():
         return jsonify({"lyrics": generated_content})
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500  # Return error message if the API call fails
+        # Return error message if the API call fails
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
+    # Run the Flask app
     app.run(debug=True)
