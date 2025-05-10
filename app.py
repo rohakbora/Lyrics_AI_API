@@ -20,7 +20,7 @@ if not API_KEY:
 genai.configure(api_key=API_KEY)
 
 # Define the generative model
-model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel('models/gemini-1.5-flash')
 
 @app.route('/generate-lyrics', methods=['POST'])
 def generate_lyrics():
