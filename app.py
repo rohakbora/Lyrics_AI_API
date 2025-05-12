@@ -26,7 +26,7 @@ model = genai.GenerativeModel('models/gemini-1.5-flash')
 def generate_lyrics():
     data = request.json
 
-    prompt = data.get('prompt', 'Generate lyrics for a song about hope.')
+    prompt = data.get('prompt')
 
     try:
         response = model.generate_content(prompt)
