@@ -3,4 +3,3 @@ Flask-Cors
 google-generativeai
 python-dotenv==0.19.1
 gunicorn
-pandas
