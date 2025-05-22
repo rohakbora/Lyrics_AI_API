@@ -3,7 +3,6 @@ from flask_cors import CORS
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
-import pandas as pd        #redundant
 
 
 load_dotenv()
@@ -18,7 +17,6 @@ API_KEY = os.getenv("GOOGLE_API_KEY")
 if not API_KEY:
     raise ValueError("API key not found in environment. Make sure to set GOOGLE_API_KEY in your .env file.")
 
-df = pd.read_csv("marks.csv")    #redundant
 
 genai.configure(api_key=API_KEY)
 
@@ -43,21 +41,6 @@ def generate_lyrics():
     except Exception as e:
         # Return error message if the API call fails
         return jsonify({"error": str(e)}), 500
-
-import pandas as pd
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
-
-
-@app.route('/api', methods=['GET'])        #redundant
-def get_marks():
-    names = request.args.getlist("name")
-    result = [
-        int(df[df["name"] == name]["marks"].values[0]) if name in df["name"].values else None
-        for name in names
-    ]
-    return jsonify({"marks": result})
-
 
 
 if __name__ == '__main__':
